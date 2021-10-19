@@ -1,17 +1,19 @@
 class QuotesController < ApplicationController
-  before_action :authenticate_request
+  #before_action :authenticate_request
   before_action :set_quotes, only: [ :show ]
 
-  # GET /quotes
-  def index
-    @quotes = Quote.all
-
-    render json: @quotes
-  end
-
-  # GET /quotes/1
+  # GET /quotes/
   def show
-    render json: @quotes
+    quotes = @quotes.map do |p|
+      {
+        quote: p.quote,
+        author: p.author,
+        author_about: p.author_about,
+        tags: p.tags
+      }
+    end
+
+    render json: { quotes:  quotes  }
   end
 
 
